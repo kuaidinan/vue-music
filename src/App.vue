@@ -1,10 +1,15 @@
 <template>
-  <div class="test">123</div>
+  <div id="app">
+    <m-header></m-header>
+  </div>
 </template>
-<script>
-export default {
-
-}
+<script type="text/ecmascript-6">
+  import MHeader from 'components/m-header/m-header'
+  export default {
+    components: {
+      MHeader
+    }
+  }
 </script>
 <style lang="stylus" scoped>
 
