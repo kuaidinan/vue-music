@@ -4,7 +4,7 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import { getRecommend } from 'api/recommend.js'
+  import { getRecommend } from 'api/recommend'
   export default {
     created() {
       this._getRecommend()
