@@ -6,7 +6,7 @@
           <slider>
             <div v-for="item in recommends">
               <a :href="item.linkUrl">
-                <img @load="loadImage" :src="item.picUrl">
+                <img class="needsclick" @load="loadImage" :src="item.picUrl">
               </a>
             </div>
           </slider>
@@ -16,7 +16,7 @@
           <ul>
             <li v-for='item in playlist' class="item">
               <div class="icon">
-                <img width='60' height='60' :src="item.imgurl"></img>
+                <img width='60' height='60' v-lazy="item.imgurl"></img>
               </div>
               <div class="text">
                 <h2 class="name">{{item.creator.name}}</h2>
@@ -25,6 +25,9 @@
             </li>
           </ul>
         </div>
+      </div>
+      <div class="loading-content">
+        <loading></loading>
       </div>
     </scroll>
   </div>
@@ -35,6 +38,7 @@
 
   import slider from 'base/slider/slider'
   import scroll from 'base/scroll/scroll'
+  import loading from 'base/loading/loading'
   export default {
     data() {
       return {
@@ -72,7 +76,8 @@
     },
     components: {
       slider,
-      scroll
+      scroll,
+      loading
     }
   }
 </script>
@@ -86,6 +91,10 @@
     .recommend-content
       height:100%
       overflow:hidden
+      .slider-wrapper
+        position: relative
+        width: 100%
+        overflow: hidden
       .recommend-list
         .list-title
           height:60px
@@ -115,4 +124,9 @@
               color:$color-text
             .desc
               color:$color-text-d
+      .loading-container
+        position: absolute
+        width: 100%
+        top: 50%
+        transform: translateY(-50%)
 </style>
