@@ -1,6 +1,6 @@
 <template>
-  <div>
-    歌手
+  <div class="singer" ref="singer">
+    <list-view :data="singers"></list-view>
   </div>
 </template>
 <script>
@@ -8,6 +8,8 @@
   import Singers from 'common/js/singer.js'
 
   import { ERR_OK } from 'api/config'
+
+  import listView from 'base/listview/listview.vue'
   let singerClass = new Singer()
 
   const HOT_SEARCH = '热门'
@@ -77,7 +79,6 @@
         let rest = []
         let special = []
 
-        console.log(map)
         for (let key in map) {
           if (map[key].title.match(/[a-zA-Z]/)) {
             rest.push(map[key])
@@ -93,9 +94,16 @@
         })
         return hot.concat(rest).concat(special)
       }
+    },
+    components: {
+      listView
     }
   }
 </script>
 <style lang="stylus" scoped rel="stylesheet/stylus">
-
+  .singer
+    position:fixed
+    top:88px
+    bottom:0
+    width:100%
 </style>
