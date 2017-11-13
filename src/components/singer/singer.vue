@@ -18,6 +18,8 @@
   import Singers from 'common/js/singer.js'
 
   import { ERR_OK } from 'api/config'
+
+  import listView from 'base/listview/listview.vue'
   let singerClass = new Singer()
 
   const HOT_SEARCH = '热门'
@@ -87,7 +89,6 @@
         let rest = []
         let special = []
 
-        console.log(map)
         for (let key in map) {
           if (map[key].title.match(/[a-zA-Z]/)) {
             rest.push(map[key])
@@ -103,6 +104,9 @@
         })
         return hot.concat(rest).concat(special)
       }
+    },
+    components: {
+      listView
     }
   }
 </script>
