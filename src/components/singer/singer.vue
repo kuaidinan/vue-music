@@ -1,6 +1,16 @@
 <template>
   <div>
-    歌手
+    <ul>
+      <li v-for="(group,groupIndex) in singers" :key="groupIndex">
+        <div>{{group.title}}</div>
+        <ul>
+          <li v-for="(item,itemIndex) in group.items" :key="itemIndex">
+            <img :src="item.avator" width="80" height="80" color:>
+            <span>{{item.name}}</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
