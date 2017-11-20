@@ -1,7 +1,7 @@
 <template>
   <div class="m-header">
     <div class="icon"></div>
-    <div class="text">Music</div>
+    <div class="text">我是标题Music</div>
   </div>
 </template>
 <script type="text/ecmascript-6">
