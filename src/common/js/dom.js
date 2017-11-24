@@ -10,3 +10,10 @@ export function addclass(el, className) {
   newClass.push(className)
   el.className = newClass.join(' ')
 }
+export function getData(element, name, value) {
+  let prefix = 'data-'
+  if (value) {
+    return element.setAttribute(prefix + name, value)
+  }
+  return element.getAttribute(prefix + name)
+}

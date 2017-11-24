@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="singer">
     <list-view :data="singers"></list-view>
   </div>
 </template>
@@ -29,7 +29,6 @@
         singerClass.getSingers().then((res) => {
           if (res.code === ERR_OK) {
             this.singers = this.normalizeSinger(res.data.list)
-            console.log(this.singers)
           }
         })
       },
@@ -101,5 +100,9 @@
   }
 </script>
 <style lang="stylus" scoped rel="stylesheet/stylus">
-
+  .singer
+    position: fixed
+    top: 88px
+    bottom: 0
+    width: 100%
 </style>
