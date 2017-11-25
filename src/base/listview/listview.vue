@@ -14,7 +14,7 @@
     <div class="list-shortcut">
       <ul>
         <li v-for="(item, index) in shortCutList"
-          :data-index="index" class="item" @touchstart="onTouchStart">{{item}}</li>
+          :data-index="index" class="item" @touchstart="onTouchStart" @touchmove="ontouchmove">{{item}}</li>
       </ul>
     </div>
   </scroll>
@@ -23,6 +23,9 @@
 <script>
   import scroll from 'base/scroll/scroll.vue'
   import { getData } from 'common/js/dom.js'
+  
+  const SHORTCUTHEIGHT = 18
+
   export default {
     props: {
       data: {
@@ -40,8 +43,21 @@
     methods: {
       onTouchStart(e) {
         let selectedIndex = getData(e.target, 'index')
-        this.$refs.listview.scrollToElement(this.$refs.listGroup[selectedIndex], 0)
+        this.touch.startY = e.touches[0].pageY
+        this.touch.startIndex = selectedIndex
+        this._scrollTo(selectedIndex)
+      },
+      ontouchmove(e) {
+        let endY = e.touches[0].pageY || 0
+        let delta = endY - this.startPageY
+        console.log(parseInt(delta / SHORTCUTHEIGHT))
+      },
+      _scrollTo(index) {
+        this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
       }
+    },
+    created() {
+      this.touch = {}
     },
     components: {
       scroll
