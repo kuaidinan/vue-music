@@ -1,5 +1,11 @@
 <template>
-  <scroll :data="data" class="listview" ref="listview">
+  <scroll 
+    @scroll="scroll" 
+    :data="data"
+    :listen-scroll="listenScroll"
+    :probe-type="probeType"
+    class="listview" 
+    ref="listview">
     <ul>
       <li v-for="group in data" class="list-group" ref="listGroup">
         <h4 class="list-group-title">{{group.title}}</h4>
@@ -14,7 +20,12 @@
     <div class="list-shortcut">
       <ul>
         <li v-for="(item, index) in shortCutList"
-          :data-index="index" class="item" @touchstart="onTouchStart" @touchmove="ontouchmove">{{item}}</li>
+           @touchstart="onTouchStart" 
+           @touchmove="ontouchmove"
+           :data-index="index"
+           :class = "{'current':currentIndex === index}"
+           class="item" 
+           >{{item}}</li>
       </ul>
     </div>
   </scroll>
@@ -25,8 +36,20 @@
   import { getData } from 'common/js/dom.js'
   
   const SHORTCUTHEIGHT = 18
-
+  
   export default {
+    data() {
+      return {
+        scrollY: -1,
+        currentIndex: 0
+      }
+    },
+    created() {
+      this.touch = {}
+      this.listenScroll = true
+      this.probeType = 3
+      this.singerHeight = []
+    },
     props: {
       data: {
         type: Array,
@@ -49,15 +72,41 @@
       },
       ontouchmove(e) {
         let endY = e.touches[0].pageY || 0
-        let delta = endY - this.startPageY
-        console.log(parseInt(delta / SHORTCUTHEIGHT))
+        let delta = (endY - this.touch.startY) / SHORTCUTHEIGHT || 0
+        let deltaIndex = parseInt(this.touch.startIndex) + delta
+        this._scrollTo(parseInt(deltaIndex))
+      },
+      scroll(pos) {
+        this.scrollY = pos.y
       },
       _scrollTo(index) {
         this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
+      },
+      _calculHeight() {
+        let listGroup = this.$refs.listGroup
+        let height = 0
+        this.singerHeight.push(height)
+        listGroup.forEach((item) => {
+          height += item.clientHeight
+          this.singerHeight.push(height)
+        })
       }
     },
-    created() {
-      this.touch = {}
+    watch: {
+      data() {
+        setTimeout(() => {
+          this._calculHeight()
+        }, 20)
+      },
+      scrollY(newVal) {
+        let singerHeight = this.singerHeight
+        for (let i = 0; i < singerHeight.length - 1; i++) {
+          if (-newVal >= singerHeight[i] && -newVal <= singerHeight[i + 1]) {
+            this.currentIndex = i
+            return
+          }
+        }
+      }
     },
     components: {
       scroll

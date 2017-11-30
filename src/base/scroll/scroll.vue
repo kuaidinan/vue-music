@@ -19,6 +19,10 @@
       data: {
         type: Array,
         default: null
+      },
+      listenScroll: {
+        type: Boolean,
+        default: false
       }
     },
     mounted() {
@@ -35,6 +39,21 @@
           probeType: this.probeType,
           click: this.clickable
         })
+
+        if (this.listenScroll) {
+          // let me = this
+          // this.scroll.on('scroll', (pos) => {
+          //   console.log('scroll-111')
+          //   me.$emit('scroll', pos)
+          // })
+
+          this.scroll.on('scroll', (pos) => {
+            clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+              this.$emit('scroll', pos)
+            }, 16)
+          })
+        }
       },
       refresh() {
         this.scroll && this.scroll.refresh()
