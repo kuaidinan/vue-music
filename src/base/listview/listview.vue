@@ -7,10 +7,10 @@
     class="listview" 
     ref="listview">
     <ul>
-      <li v-for="group in data" class="list-group" ref="listGroup">
+      <li v-for="(group, groupIndex) in data" class="list-group" ref="listGroup" :key="groupIndex">
         <h4 class="list-group-title">{{group.title}}</h4>
         <ul>
-          <li v-for="item in group.items" class="list-group-item">
+          <li v-for="(item, itemIndex) in group.items" class="list-group-item" :key="itemIndex">
             <img class="avatar" v-lazy="item.avator"></img>
             <span class="name">{{item.name}}</span>
           </li>
@@ -25,6 +25,7 @@
            :data-index="index"
            :class = "{'current':currentIndex === index}"
            class="item" 
+           :key="index"
            >{{item}}</li>
       </ul>
     </div>
